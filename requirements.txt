@@ -1,2 +1,2 @@
-flask
-first_flask_app/requirements.txt
+#pytest
+-r first_flask_app/requirements.txt
