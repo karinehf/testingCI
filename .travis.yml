@@ -1,4 +1,9 @@
 language: python
+python: 
+    -"3.8"
+sudo: required
+services: 
+    - docker
 branches: 
     only: 
        - master
