@@ -9,4 +9,5 @@ install:
 branches: 
     only: 
        - master
-script: pytest
+script:
+   - python firsttest.py
