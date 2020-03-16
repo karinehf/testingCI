@@ -12,8 +12,8 @@ branches:
        - master
 script:
 #Simple python script
-  - python firsttest.py
+    - python firsttest.py
 
 #Flask application
-
+    - python -m unittest tests/test_first_flask_app.py
 #Docker
