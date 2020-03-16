@@ -4,6 +4,9 @@ python:
 sudo: required
 services: 
     - docker
+install:
+    - pip install -r first_flask_app/requirements.txt
 branches: 
     only: 
        - master
+script: pytest
