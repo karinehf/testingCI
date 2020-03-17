@@ -3,8 +3,8 @@ python:
     - "3.8"
 #To include docker: (Do not know how to incoorporate it yet)
 #sudo: required
-#services: 
-#    - docker
+services: 
+    - docker 
 install:
     - pip install -r requirements.txt
 branches: 
@@ -16,4 +16,12 @@ script:
 
 #Flask application
     - python -m unittest tests/test_first_flask_app.py #Just testing content..
+
 #Docker
+    - cd first_flask_app
+    - docker build -t "first_flask_app_image" . 
+    - docker run -d -p 5000:5000 --name first_flask_app_container first_flask_app_image 
+    - docker ps
+    - docker stop $(docker ps -q -f "name=first_flask_app_container")
+    - docker ps
+    - docker container rm $(docker ps -a -q -f "name=first_flask_app_container")
