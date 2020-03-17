@@ -15,5 +15,5 @@ script:
     - python firsttest.py
 
 #Flask application
-    - python -m unittest tests/test_first_flask_app.py
+    - python -m unittest tests/test_first_flask_app.py #Just testing content..
 #Docker
