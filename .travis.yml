@@ -25,7 +25,9 @@ script:
     - docker run -d -p 5000:5000 --name first_flask_app_container first_flask_app_image 
     - docker ps
     #Running test, including those involving if application is running
+    - cd -
     - python -m unittest discover tests
+    - cd first_flask_app
 
     - docker stop $(docker ps -q -f "name=first_flask_app_container")
     - docker ps
