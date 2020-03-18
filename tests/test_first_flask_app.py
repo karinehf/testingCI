@@ -13,7 +13,7 @@ class TestFlask(unittest.TestCase):
         #Test that status code is OK.
         #NB, for running code.
         #Should maybe explore having a testing environment (test client...?)
-        url = "http://127.0.0.1:5000/" #Have so far not found a good way of getting the URL
+        url = "http://0.0.0.0:5000/" #Have so far not found a good way of getting the URL
         response = requests.head(url)
         self.assertEqual(response.status_code, 200)
 
