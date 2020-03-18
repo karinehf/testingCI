@@ -3,31 +3,30 @@ python:
     - "3.8"
 services: 
     - docker 
-#before_install:
-#First main Phase is install
+#First main phase is install
 install:
     - pip install -r requirements.txt
 #Only trigger Travis when pushed to master branch:
 branches: 
     only: 
        - master
-#Second main phase is script, but commands can also be run before and after this phase (before_script, after_script)
+#Second main phase is script
 script:
 #This is where Travis tests and runs code
 #Simple python script
     - python firsttest.py
 
-#Flask application
-    - python -m unittest tests/test_first_flask_app.py #Just testing content
-
-#Running package of tests
-    - python -m unittest discover tests  
+#Running package of tests checking code not connected to running applications/containers
+   # - python -m unittest discover tests  
 
 #Docker
     - cd first_flask_app
     - docker build -t "first_flask_app_image" . 
     - docker run -d -p 5000:5000 --name first_flask_app_container first_flask_app_image 
     - docker ps
+    #Running test, including those involving if application is running
+    - python -m unittest discover tests
+
     - docker stop $(docker ps -q -f "name=first_flask_app_container")
     - docker ps
     - docker container rm $(docker ps -a -q -f "name=first_flask_app_container")
