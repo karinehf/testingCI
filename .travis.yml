@@ -24,9 +24,6 @@ script:
     - docker build -t "first_flask_app_image" . 
     - docker run -d -p 5000:5000 --name first_flask_app_container first_flask_app_image 
     - docker ps
-    #Trying to run container with the same name
-    - docker run -d -p 3200:5000 --name first_flask_app_container first_flask_app_image 
-    - docker ps
     #Running test, including those involving if application is running
     - cd -
     - python -m unittest discover tests
@@ -35,10 +32,7 @@ script:
 
     - docker stop $(docker ps -q -f "name=first_flask_app_container")
     - docker ps
-    - curl "http://0.0.0.0:5000/"
-    #Trying to stop running containers when there is none
-    - docker stop $(docker ps -q -f "name=first_flask_app_container")
-    
+
     - docker container rm $(docker ps -a -q -f "name=first_flask_app_container")
     - cd -
 
