@@ -31,7 +31,7 @@ script:
     #Running test, including those involving if application is running
     - cd -
     #- python tests/test_running.py
-    - python -m unittest discover tests 
+    #- python -m unittest discover tests 
 
     #Simple way to check connection (fails if connection is not obtained)
     #curl "http://0.0.0.0:5000/"
