@@ -11,25 +11,35 @@ branches:
     only: 
        - master
 #Second main phase is script
-script:
 #This is where Travis tests and runs code
-#Simple python script
-    - python firsttest.py
+script:
 
-#Running package of tests checking code not connected to running applications/containers
-   # - python -m unittest discover tests  
+#Simple python script can be run like this: 
+   # - python firsttest.py
+
+#Running all tests in a package: 
+   # - python -m unittest discover tests 
+#Run code involving content of code:
+    -python tests/test_structure.py
+    -python tests/test_content.py 
 
 #Docker
+    #Build image and run container
     - cd first_flask_app
     - docker build -t "first_flask_app_image" . 
     - docker run -d -p 5000:5000 --name first_flask_app_container first_flask_app_image 
     - docker ps
+
     #Running test, including those involving if application is running
     - cd -
-    - python -m unittest discover tests
-    - curl "http://0.0.0.0:5000/"
-    - cd first_flask_app
+    - python tests/test_running.py
 
+    #Simple way to check connection (fails if connection is not obtained)
+    #curl "http://0.0.0.0:5000/"
+    #Also possible to add health check to docker
+
+    #Stop and remove the running container
+    - cd first_flask_app
     - docker stop $(docker ps -q -f "name=first_flask_app_container")
     - docker ps
 
