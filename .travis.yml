@@ -14,10 +14,10 @@ branches:
 #This is where Travis tests and runs code
 script:
 #Run code involving content of code:
-    - python tests/test_structure.py
-    - python tests/test_content.py 
+    #- python tests/test_structure.py
+    #- python tests/test_content.py 
     #Simple python script can be run like this: 
-    # - python firsttest.py
+     - python firsttest.py
     #Running all tests in a package: 
     # - python -m unittest discover tests 
 
@@ -31,6 +31,7 @@ script:
     #Running test, including those involving if application is running
     - cd -
     #- python tests/test_running.py
+    - python -m unittest discover tests 
 
     #Simple way to check connection (fails if connection is not obtained)
     #curl "http://0.0.0.0:5000/"
