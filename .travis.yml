@@ -30,7 +30,7 @@ script:
 
     #Running test, including those involving if application is running
     - cd -
-    - python tests/test_running.py
+    #- python tests/test_running.py
 
     #Simple way to check connection (fails if connection is not obtained)
     #curl "http://0.0.0.0:5000/"
