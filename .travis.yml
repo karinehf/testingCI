@@ -35,9 +35,9 @@ script:
     #Simple way to check connection (fails if connection is not obtained)
     #curl "http://0.0.0.0:5000/"
     #Also possible to add health check to docker
-
     #Stop and remove the running container
     - cd first_flask_app
+    - docker ps
     - docker stop $(docker ps -q -f "name=first_flask_app_container")
     - docker ps
 
