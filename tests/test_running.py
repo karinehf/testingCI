@@ -1,9 +1,11 @@
 import unittest
 import requests
+from app import app
 
 #NB, for running code.
 class TestFlaskRunning(unittest.TestCase):
-    URL = "http://0.0.0.0:5000/" 
+    URL= "http://0.0.0.0:5000/" + app.app_name + "/"
+
 
     def test_status_code(self):
         #Test that status code is OK.

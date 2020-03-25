@@ -10,9 +10,10 @@ branches:
 before_install:
     #Docker
     #Build image and run container
-    - cd first_flask_app
-    - docker build -t "first_flask_app_image" . 
-    - docker run -d -p 5000:5000 --name first_flask_app_container first_flask_app_image 
+    #This can be moved to script if we want to see status for the build and run
+    - cd app
+    - docker build -t "test_app_image" . 
+    - docker run -d -p 5000:5000 --name test_app_container test_app_image 
     - docker ps
     - cd -
 
@@ -32,19 +33,19 @@ script:
     # - python -m unittest discover tests 
 
 
-    #Running test, including those involving if application is running
+    #Tests involving the running of web app
     - python -m unittest tests/test_running.py
 
     #Simple way to check connection (fails if connection is not obtained)
     #curl "http://0.0.0.0:5000/"
     #Also possible to add health check to docker
     #Stop and remove the running container
-    - cd first_flask_app
+    - cd app
     - docker ps
-    - docker stop $(docker ps -q -f "name=first_flask_app_container")
+    - docker stop $(docker ps -q -f "name=test_app_container")
     - docker ps
 
-    - docker container rm $(docker ps -a -q -f "name=first_flask_app_container")
+    - docker container rm $(docker ps -a -q -f "name=test_app_container")
     - cd -
 
 #Additional actions?
