@@ -1,2 +1,2 @@
--r first_flask_app/requirements.txt
+#-r first_flask_app/requirements.txt
 requests
