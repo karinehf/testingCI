@@ -1,5 +1,5 @@
 
-from first_flask_app import app #Works for python3, not for python 2.7
+from first_flask_app import app
 import unittest
 
 class TestFlaskContent(unittest.TestCase):
