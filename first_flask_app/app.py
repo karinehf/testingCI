@@ -17,16 +17,6 @@ health = HealthCheck(app, "/health")
 def hello_world():
     return "Hello World!"
 
-#IKKE GOD METODE
-#@app.route("/health")
-#def status_code(): 
-#    url = base_url()
-#    response = requests.head(url)
-#    if response.status_code ==200: 
-#        return "200 OK"
-#    else:
-#        return "Error, status not ok"
-
 if __name__ == "__main__":
     app.run(debug = True, host='0.0.0.0')
 
