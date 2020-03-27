@@ -17,7 +17,7 @@ before_install:
     #- docker run -d -p 3000:5000 --name test_app_container test_app_image 
     
     #With docker-compose: 
-    - docker-compose up
+    - docker-compose up -d
     - docker ps
     - cd -
 
@@ -43,10 +43,10 @@ script:
     #Stop and remove the running container
     - cd app
     - docker ps
-    - docker stop $(docker ps -q -f "name=test_app_container")
+    - docker stop $(docker ps -q -f "name=app_container")
     - docker ps
 
-    - docker container rm $(docker ps -a -q -f "name=test_app_container")
+    - docker container rm $(docker ps -a -q -f "name=app_container")
     - cd -
 
 #Additional actions?
