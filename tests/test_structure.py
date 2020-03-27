@@ -1,4 +1,4 @@
-from test_base import TestPortsBase
+from tests.test_base import TestPortsBase
 import os
 
 class TestDockerStructure(TestPortsBase):

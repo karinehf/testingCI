@@ -77,11 +77,4 @@ def get_gunicorn_port(dockerfile_string):
         #Should be difference between not using gunicorn and not having port specified?
         return None
 
-#port = get_gunicorn_port()
-#print(port)
-#lines = get_dockerfile_string()
-#print(lines)
-#print(is_gunicorn(lines))
-a_list = ["3434","555"]
-int_list = [int(a_list[0]), int(a_list[1])]
-print(int_list)
+
