@@ -11,6 +11,7 @@ from flask_restplus import Resource, Api, apidoc
 
 #Set name manually
 app_name = "testingCI"
+host = '0.0.0.0'
 
 apidoc.apidoc.url_prefix = f'/{app_name}'
  
@@ -34,5 +35,5 @@ class HealthCheckResource(Resource):
         pass
 
 if __name__ == "__main__":
-    app.run(debug = True, host='0.0.0.0')
+    app.run(debug = True, host=host)
 

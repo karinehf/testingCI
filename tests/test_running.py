@@ -1,10 +1,18 @@
-import unittest
 import requests
 from app import app
+from tests.test_base import TestPortsBase
 
 #NB, for running code.
-class TestFlaskRunning(unittest.TestCase):
-    URL= "http://0.0.0.0:5000/" + app.app_name + "/"
+class TestFlaskRunning(TestPortsBase):
+    #def __init__(self, *args, **kwargs):
+    #    super(TestingClass, self).__init__(*args, **kwargs)
+
+    def setUp(self):
+        self.PORT_OUT = self.get_ports_dockercompose()[0]
+        self.URL = "http://" + app.host + ":" + str(self.PORT_OUT)+ "/" + app.app_name + "/"
+
+    def test_URL(self):
+        self.assertEqual(self.URL, "http://0.0.0.0:3000/testingCI/")
 
 
     def test_status_code(self):

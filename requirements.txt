@@ -1,2 +1,4 @@
 -r app/requirements.txt
 requests
+pyyaml
+dockerfile_parse
