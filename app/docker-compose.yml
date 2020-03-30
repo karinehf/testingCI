@@ -1,7 +1,8 @@
 version: '3'
 services:
-  web:
+  app:
     build: .
+    image: app_image:test #This name is used in travis.yml
     ports:
-      - "3000:5000"
-    container_name: app_container
+      - "3000:4000" #The container port must match the gunicorn port
+    container_name: app_container #This name is used in travis.yml

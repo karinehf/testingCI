@@ -6,26 +6,25 @@ class TestDockerStructure(TestPortsBase):
     def setUp(self):
         self.PORT_COMPOSE= self.get_ports_dockercompose()[1]
         dockerfile_string = self.get_dockerfile_string()
-        self.PORT_GUNICORN = self.get_gunicorn_port(dockerfile_string)
+        host_and_port = self.get_container_host_and_port(dockerfile_string)
+        self.HOST = host_and_port[0]
+        self.PORT_CONTAINER = host_and_port[1]
 
    
-    def test_gunicorn_port(self):
-         #Temporary test:
-        assert(self.PORT_GUNICORN is None)
+    #def test_container_port(self):
+    #     #Temporary test:
+    #    self.assertEqual(self.PORT_CONTAINER,5000)
 
     def test_is_dockercompose(self):
+        #TODO: What to do if there is no compose-file?
         assert(self.is_dockercompose())
 
     def test_port_mapping(self):
-        #No dockerfile/gunicorn port: 
         if not self.is_dockercompose():
-            #What happens if there is no docker-compose file?
+            #TODO: What to do if there is no docker-compose file?
             assert(False)
-        elif self.PORT_GUNICORN is None:
-            #Must check what happens when gunicorn does not specify port
-            assert(True)
         else:
-            self.assertEqual(self.PORT_GUNICORN, self.PORT_COMPOSE)
+            self.assertEqual(self.PORT_CONTAINER, self.PORT_COMPOSE)
 
     def test_exists_requirements(self):
         assert(os.path.exists("app/requirements.txt"))
