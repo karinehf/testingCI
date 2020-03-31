@@ -77,4 +77,76 @@ def get_gunicorn_port(dockerfile_string):
         #Should be difference between not using gunicorn and not having port specified?
         return None
 
+def cmd_last_in_dockerfile(path='app'):
+    '''
+    See if CMD is the last command in Dockerfile
+    '''
+    dockerfile_string=get_dockerfile_string(path)
+    num_CMD = dockerfile_string.count('CMD')
+    if dockerfile_string.find('CMD[') != -1:
+        string_modified= re.sub("CMD\[(.*?)\]", 'CMD[]', dockerfile_string)
+        return string_modified.endswith('CMD[]')
+    elif dockerfile_string.find('CMD') != -1:
+        #CMD exists, but without brackets. Find last line of Dockerfile
+        #and check if starts with
+        dfc = DockerfileParser(path=path)
+        all_content = dfc.content.strip()
+        last_line = all_content.split('\n')[-1].strip()
+        #strip added here if it may start with spaces. But maybe that will break the Dockerfile?
+        return last_line.startswith('CMD')
+    else: 
+        #No CMD
+        return False
+
+from app import app
+import re
+def get_app_port():
+    try: 
+        #host = app.host #TODO: Could also get the host
+        port_temp = app.port
+        if port_temp is None:
+            #Default port for flask app
+            port = 5000
+        else: 
+            #TODO: Exception if port is not valid?
+            port = int(port_temp)
+        return port
+    except:
+        #host = None #Finding host skipped
+        port = None
+
+        with open("app/app.py", "r") as f:
+            lines = f.readlines()
+            port_var = "port"
+            keyword_found = False
+            for line in reversed(lines):
+                #Removes part of lines after #
+                line = line.split('#', 1)[0]
+                port_match = re.search("(?:^|;| ) *" + port_var + " *= *([A-Za-z0-9_\.-]*)", line)
+                if port_match:
+                    keyword_found=True
+                    port_str = port_match.group(1)
+                    #TODO: Here we assume we will find valid output
+                    try: 
+                        port = int(port_str)
+                        break
+                    except:
+                        port_var = port_str
+                else:
+                    continue
+            if port is None and not keyword_found: 
+                port = 5000
+
+        return port
+
+
+print(get_app_port())
+'''
+line = "port = 3000 #hello"
+port_var = "port"
+port_match = re.search("(?:^|;) *" + port_var+ " *= *([A-Za-z0-9]*)", line)
+port_str = port_match.group(1)
+print(len(port_str))
+print(port_str)
+'''
 

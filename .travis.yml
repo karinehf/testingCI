@@ -17,7 +17,7 @@ before_install:
     #- docker run -d -p 3000:5000 --name test_app_container test_app_image 
     
     #With docker-compose: 
-    - docker-compose up -d --build #Build to make sure the image is always built
+    - docker-compose up -d --build #Build to make sure the image is built
     - docker ps
     - cd -
 
@@ -47,7 +47,6 @@ script:
     - docker ps
 
     - docker container rm $(docker ps -a -q -f "name=app_container") #Removes the container
-    - docker image rm app_image:test #Removes the build image. 
     - cd -
 
 #Additional actions?
