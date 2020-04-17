@@ -5,7 +5,7 @@ env:
     global:
         #AWS_SECRET_ACCESS_KEY encrypted:
         - secure: "UE8YX6HeqQjAj+uy/EQjkLH79+7hBX6JJryNqXPYxot64kJ7JsEysZz1K6btF9tGENzShCrOmCMuBv7Snme/gawY1HHlVDyGqGEecX271c2sfC0vxiazEpfW0EgfABOKvjSORQC6GEuF7N0QaapfnnLN0t+zG0ObHu7Qoc/b3HswwyV+sD7u5vebjuJpQsUvRw1rCUso+Jn/DHXHBWH0lLE87PYSbOdmIoXYGDhgq0tY2kQn6Zja6fdfPz0YP6M7luDfhyTX36yw01yK0inIvfSbmw3k2lVkYFcUNkdqKHWgLqfSYSCThYkrVyLi7QhQx3Ws8n2EaVw2iOYY7r8r420l/hZYyrt4Evm42J1l9QJLzWrHbI0a3HJzg/tsxeXuQSsJ5frXTr0I5wfdDc9GovM+iJOMUE638vE+ozW3hMbHoOmrgDtg2hLmZuR3IXLg2WJ9wYtuO54PTTYYT1r921gsp/Szq6qadkVW01Fi8bAhx7+IWHiP4L0Io2tx7z9U9kjEs86qzQlmN5MWmtY1TNKxbvevi+f5OmMurAE8nGrPKk2mLODy8tyxNCsrlqmGPTd3IYQpsfq3uQzZkBpFZlaX9i0if4cXeFDJBkfUZdfvyM1B10Pb02Zo/fPmvWrMhHmoSB3mRT9K6niTBqynmhipOp6VAKzx36prq7x/8iY="
-        - AWS_ACCESS_KEY_ID = AKIAWWGOMJ5PCKSYXJ7U
+        - AWS_ACCESS_KEY_ID = "AKIAWWGOMJ5PCKSYXJ7U"
 services: 
     - docker 
 #Only trigger Travis when pushed to master branch:
@@ -53,7 +53,8 @@ script:
 
     - docker container rm $(docker ps -a -q -f "name=app_container") #Removes the container
     - pip install awscli
-    - eval $(aws ecr get-login --no-include-email --region eu-west-1) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+    - export PATH=$PATH:$HOME/.local/bin
+    - $(aws ecr get-login --no-include-email --region eu-west-1) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
     #- aws ecr get-login-password | docker login  --password-stdin --username AWS "459994320734.dkr.ecr.eu-west-1.amazonaws.com"
     - docker build -t app_image:latest .
     - docker tag app_image:latest 459994320734.dkr.ecr.eu-west-1.amazonaws.com/app-image-repo
