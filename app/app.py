@@ -24,7 +24,7 @@ api = Api(app
 , title=f'{app_name}'
 , doc = f'/{app_name}/'
 , prefix=f'/{app_name}'
-, description='My first hello world API')
+, description='My first API for testing CI, hello world and health')
 
 health = HealthCheck(app, "/"+ app_name + "/health")
 
