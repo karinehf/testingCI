@@ -3,7 +3,6 @@ python:
     - "3.8"
 services: 
     - docker 
-#Only trigger Travis when pushed to master branch:
 branches: 
     only: 
         - master
