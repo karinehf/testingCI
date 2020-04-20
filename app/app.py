@@ -15,7 +15,6 @@ app_name = "testingCI"
 #Host and port only matter if gunicorn is not used.
 host = '0.0.0.0'
 port = None
-
 ################################
 
 apidoc.apidoc.url_prefix = f'/{app_name}'
