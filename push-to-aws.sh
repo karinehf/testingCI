@@ -1,6 +1,6 @@
-cd app
-bash AWS_env_var.sh
+source AWS_env_var.sh
 
+cd app
 pip install awscli
 export PATH=$PATH:$HOME/.local/bin
 eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
