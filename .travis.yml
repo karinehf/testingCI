@@ -7,7 +7,6 @@ env:
         - secure: "txuyVep+N1P0JwY8w0rvKHSDSmfsxEhrzzGYKMUDymuKKf0MKkbIWFKqkKsNLkGMBmKgHeAK+5U8l/V66VtDMXjnyBrYfSu4umY1O+KJ3oJIWLjY8OjGFQI+PipcukZyWV2OVP0RoHDTpciKQSHslWhqHb2eOVHrwu9puy5QcDwRI9lG1m1v9V0FocLm1IvHjrtzbOxyYGOaAFZ8g5bV5hgYee6iHGylLblH4UI23P2re19tscoGN2Yjz31Wzmr4JqRbATOsyMpLS/4J+sbJpQi0faKbQvIXYzrkwCDfnwPHfLdq/IZ3KJ/xKX6Lhr03ngUxvYEtNBnPPG+qR97emvwRvyWzw7mKnXnGha1yfeY3Y0ptuiSvyg4HwJXa/up7GEbLXNOhOQ5CFQDfAxcOFW/j9MgiGWUKTLi79awUnoYYXRdFkUO0h2k398Uk6qRtUhPTAocA951091m0rogbc8OR82H40eYyn2a4HGq1DQ1ekoraUiGdeLIQueRm+fBkDg2QHKWGf+Dv/8GacExFIziaSvabJBeK4agCZMZNKMkn4nahvThls8n6nDoPLMcpalt06+GYbAA+Pjli2T3hYsLhX2p441hmyyk32O0YPLrfphBw0cV26KEJMKMYOAkx/9rnUYbDDb2dC7z+d+AkDEtoMnDn+BmhQeuL684X+mU="
 
         - secure: "uMZtyIsHCOv/AbJPS+087Ze4LGzqEXCK9Y1Vtwr12uen1wmdDCXlow/OPdaZNtQChvOG8ViJHabe4c0PXmso2M7IaDhERfJrAmOXEWlNLGHVp5p0hJi9n4Y3yTOvBpOrp1QY2xWonyLJV+WFWratZndWVXkS3CqE0iqAwduary40KU8JJ02+w8up64eVKBIhWjavqBr1zRyHAgtG5AE9qvtquQ5YymnU6F2SiYGjrTgpaNuiZsDG1p4QROvxA/QHdX1C6pXeeUX+34/zWKLf76P8RpOX4yhfN+UEvRmuUOe7D9ORxLxO01SCCEc2sG3yolJdQj1kcvgNBoews5+5jiPvP1NScSVXQ5T8QIKo7YM1ZW+7BIenTiEie9ZM9RmqyPnBiWCkmyHAl0AgdBAG7hx7fCibhP9nmC+36zFYp1GnNnrqldBUQsz2Us/vFxMnt6m5fvXW0MArCdhIpLfLT1VFLbGovYV3xIMtW5JZ6Vdr6ziLb4bu0du1D2jZGOSYt77MkZPaRJWm1lZF//1TjMaYrVqq8c4JJ28AoejI35RMSr0aD39uv7w5FhGCRcA65Jr2WECHq3+ad5lpXlVPfjE2jqy6iIQKpCOL2dfKhbBPveSMAduMT8QrIky+UzWV+Sk2ZdL4HD9kNPCXHm98MhVnf+HJQM3O0CHSx+P5vmA="
-        - AWS_DEFAULT_REGION=eu-west-1
 services: 
     - docker 
 #Only trigger Travis when pushed to master branch:
@@ -24,7 +23,9 @@ before_install:
     #- docker run -d -p 3000:5000 --name test_app_container test_app_image 
     
     #With docker-compose: 
-    - docker-compose up -d --build #Build to make sure the image is built
+    #- docker-compose up -d --build #Build to make sure the image is built
+    - docker-compose build
+    - docker-compose run -d --service-ports --name app_container app
     - docker ps
     - cd -
 
@@ -56,17 +57,8 @@ script:
     - docker container rm $(docker ps -a -q -f "name=app_container") #Removes the container
     - cd -
     
- 
 #Additional actions?
 #after_success:
-    # - cd app
-    # - pip install awscli
-    # - export PATH=$PATH:$HOME/.local/bin
-    # - eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-    # - docker build -t app_image:latest .
-    # - docker tag app_image:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/app-image-repo
-    # - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/app-image-repo:latest
-    # - aws ecs update-service --cluster api-image-cluster --service api_image_service --force-new-deployment
 #after_failure:
 deploy:
     provider: script

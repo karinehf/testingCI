@@ -2,7 +2,7 @@ version: '3'
 services:
   app:
     build: .
-    image: app_image:test
+    image: app_image:latest
     ports:
       - "3000:4000" #The container port must match the gunicorn or app port
-    container_name: app_container #This name is used in .travis.yml
+    #container_name: app_container #Think it is better to set the temporary container name in .travis.yml
