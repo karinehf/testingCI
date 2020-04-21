@@ -6,7 +6,7 @@ export PATH=$PATH:$HOME/.local/bin
 eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
 docker build -t $AWS_IMAGE_NAME:latest .
 docker tag $AWS_IMAGE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_REPO
-#docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_REPO:latest
+docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_REPO:latest
 
-#Using Fargate/dynamic port mapping + load balancer
+#Using Fargate or dynamic port mapping + load balancer
 #aws ecs update-service --cluster $AWS_CLUSTER --service $AWS_SERVICE --force-new-deployment

@@ -1,30 +1,15 @@
 language: python
 python: 
     - "3.8"
-#env:
-#    global:
-#        - secure: "CrZ4EgAQKVtLIdNPd72e/nLavks/p5C34wsTM2up0RYTwP90HKvka5wS+ATF0yHW4z5+Umjo+3HL89LV5k1AA7Tr00lzaHsB4WUMuwTrQKhtNoTfr2YMpBHYeWQ0OoEWAPLJEhshoP1uwb53LbMZS8qJ6p4D5fsNbAz9K86JYj6i8aCEOAgNY+qjtpGcUxGRWCEvMEmfjWQ+fVu8w+DnUzhGrRbnpA2O6eV5iT6dzqj5DPVCtod0rnMQBJNXAddTwigxPotdQpDSvhh2fHAe2HihVqYjJdzAI3zM19n0ZGg9ekkkKCyRbfDxyGM2SGirwzN9BLTBkH6wJEg2Bmdhi9YT3UuPW3KMEVISCH0PqN9gJFXALiZUfAEuj+/aRG/Oosc+k76ghwnIl8XsihEFQj9eJtnC9TeaH9xxdbEmP0RGkPqZEBu1YME5A7ZeKPAsH9Xvll+69ZzXbS3emVtLrRHt8ixHPVk4VGGETaIT7qMg1HVl0aXDpMf5q5OUIdQSoOuMvBO90i0gD7QHJ6RdyUrGb2fiUKpg83Bc/hhbD1xHDKi7JwP7dgnx6+lH3PVZesyxUy3wZEABkj8R4IfvlmfSc/S7Ss/jqhK1D3fpbJkR9ddMBisPfBrdiGkDtqXvibUmljnDFJt2q+XdlCjxo6jpBIa5urXOlTzX/RWwupE="
-#        - secure: "txuyVep+N1P0JwY8w0rvKHSDSmfsxEhrzzGYKMUDymuKKf0MKkbIWFKqkKsNLkGMBmKgHeAK+5U8l/V66VtDMXjnyBrYfSu4umY1O+KJ3oJIWLjY8OjGFQI+PipcukZyWV2OVP0RoHDTpciKQSHslWhqHb2eOVHrwu9puy5QcDwRI9lG1m1v9V0FocLm1IvHjrtzbOxyYGOaAFZ8g5bV5hgYee6iHGylLblH4UI23P2re19tscoGN2Yjz31Wzmr4JqRbATOsyMpLS/4J+sbJpQi0faKbQvIXYzrkwCDfnwPHfLdq/IZ3KJ/xKX6Lhr03ngUxvYEtNBnPPG+qR97emvwRvyWzw7mKnXnGha1yfeY3Y0ptuiSvyg4HwJXa/up7GEbLXNOhOQ5CFQDfAxcOFW/j9MgiGWUKTLi79awUnoYYXRdFkUO0h2k398Uk6qRtUhPTAocA951091m0rogbc8OR82H40eYyn2a4HGq1DQ1ekoraUiGdeLIQueRm+fBkDg2QHKWGf+Dv/8GacExFIziaSvabJBeK4agCZMZNKMkn4nahvThls8n6nDoPLMcpalt06+GYbAA+Pjli2T3hYsLhX2p441hmyyk32O0YPLrfphBw0cV26KEJMKMYOAkx/9rnUYbDDb2dC7z+d+AkDEtoMnDn+BmhQeuL684X+mU="
-
 services: 
     - docker 
-#Only trigger Travis when pushed to master branch:
 branches: 
     only: 
         - master
-#First main phase is install
 install:
     - pip install -r requirements.txt
-
-#Second main phase is script
-#This is where Travis tests and runs code
 script:
-    - bash run-docker-and-tests.sh
-    
+    - bash run-docker-and-tests.sh   
 deploy:
     provider: script
     script: bash push-to-aws.sh
-
-#Other possible phases:
-#after_success:
-#after_failure:
