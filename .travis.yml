@@ -12,16 +12,6 @@ services:
 branches: 
     only: 
         - master
-before_install:
-    #Docker
-    #Build image and run container
-    #This can be moved to script if we want to see status for the build and run
-    - cd app
-    - docker-compose build
-    - docker-compose run -d --service-ports --name app_container app
-    - docker ps
-    - cd -
-
 #First main phase is install
 install:
     - pip install -r requirements.txt
@@ -29,20 +19,12 @@ install:
 #Second main phase is script
 #This is where Travis tests and runs code
 script:
-    - bash run-tests.sh
-
-    #Stop and remove the running container
-    - cd app
-    - docker ps
-    - docker stop $(docker ps -q -f "name=app_container")
-    - docker ps
-
-    - docker container rm $(docker ps -a -q -f "name=app_container") #Removes the container
-    - cd -
+    - bash run-docker-and-tests.sh
+    - bash push-to-aws.sh
     
-deploy:
-    provider: script
-    script: bash push-to-aws.sh
+#deploy:
+#    provider: script
+#    script: bash push-to-aws.sh
 
 #Other possible phases:
 #after_success:
