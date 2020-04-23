@@ -10,6 +10,10 @@ install:
     - pip install -r requirements.txt
 script:
     - bash run-docker-and-tests.sh   
+    - current_dir=$PWD
+    - app_name="${current_dir%"${current_dir##*[!/]}"}" # extglob-free multi-trailing-/ trim
+    - app_name="${app_name##*/}"
+    - printf "$app_name"
 deploy:
     provider: script
     script: bash push-to-aws.sh
