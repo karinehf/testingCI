@@ -13,7 +13,7 @@ from flask_restplus import Resource, Api, apidoc
 #Set name manually
 app_name = "testingCI"
 #Host and port only matter if gunicorn is not used.
-host = '0.0.0.0'
+host = '0.0.0.0' #Currently never collected by tests.
 port = None
 ################################
 
