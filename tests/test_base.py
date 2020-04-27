@@ -5,7 +5,7 @@ from dockerfile_parse import DockerfileParser
 import os 
 from app import app
 
-class TestPortsBase(unittest.TestCase):
+class TestBase(unittest.TestCase):
 
     def is_dockercompose(self, path='app'):
         filename = path + '/docker-compose.yml'

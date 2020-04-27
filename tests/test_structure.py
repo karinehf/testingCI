@@ -1,7 +1,7 @@
-from tests.test_base import TestPortsBase
+from tests.test_base import TestBase
 import os
 
-class TestDockerStructure(TestPortsBase):
+class TestDockerStructure(TestBase):
 
     def setUp(self):
         self.PORT_COMPOSE= self.get_ports_dockercompose()[1]

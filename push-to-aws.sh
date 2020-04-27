@@ -1,4 +1,4 @@
-source AWS_env_var.sh
+source AWS-env-var.sh
 cd app
 pip install awscli
 export PATH=$PATH:$HOME/.local/bin

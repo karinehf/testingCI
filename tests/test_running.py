@@ -1,9 +1,9 @@
 import requests
 from app import app
-from tests.test_base import TestPortsBase
+from tests.test_base import TestBase
 
 #NB, for running code.
-class TestFlaskRunning(TestPortsBase):
+class TestFlaskRunning(TestBase):
 
     def setUp(self):
         self.PORT_OUT = self.get_ports_dockercompose()[0]
