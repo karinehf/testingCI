@@ -36,7 +36,9 @@ Secrets/keys etc should never be stored in plain text. They can, however, be sto
 1. The simplest way of saving secret keys and variables, such as your AWS keys, is as environment variables in your Travis repository settings. These are encrypted as default as long as you do *not choose to display value in build log*. See details in <https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings>. Saving your secrets in this way makes it easy to keep track of which secrets you have, and it keeps the code clean.
 2. You can also add an encrypted version of your secrets to `.travis.yml`, but to keep your code clean, be careful with this. 
     First, you must install the `travis` tool, which is written in Ruby and published as a `gem`. Therefore, you need Ruby and RubyGems installed first. 
+    
     **NOTE**: There might be several options here, and it might be preinstalled. As a Mac used, there was some trouble with having to use `sudo`. 
+    
     Then to install `travis` and encrypt your keys, follow the procedure here: <https://docs.travis-ci.com/user/encryption-keys/#usage>. Since we are using the `.com`-site, use the `--pro` version of the commands. 
     Add your variables to `.travis.yml` together with any other variables like this:
     ```yaml
@@ -49,6 +51,7 @@ The most important secrets in this repository are the AWS access keys. Some addi
 
 # Repository details
 **NOTE**: In general, your repo should include the folders and files and the same structure as this template repository for all Travis commands and tests to run without error. 
+
 Folder names `app` and `tests` must be kept as they are, as must name of app content file: `app.py`. Root directory should be the name of the app, and the variable `app_name` must also be added as a variable in `app.py`.
 The YAML file `.travis.yml` must be in root directory, and so should the `.sh`-scripts be. These are called from `.travis.yml` and include the specific commands Travis needs to run.
 The `.vscode` folder with settings include some settings convenient for running the unit tests in Visual Studio Code. Here, it is specified where to look for the tests and to use Python 3 by default. The folder is not necessary for running the tests in Travis or from other interfaces.
@@ -70,7 +73,9 @@ This is how and where you set your container port:
 - If gunicorn is not used, there are also two alternatives: 
     1. Set a port in `app.py` (preferably using `port` variable as in the template here) and set same container port in `docker-compose.yml`. 
     2. Only set the container port in `docker-compose.yml` to 5000, which is flask default.
+
 **NOTE**: The functionality of the health endpoint is currently very limited.
+
 **NOTE**: Be aware that changed settings for docker image here will be tested, but *not* included when pushing to AWS. If it is desired to use the docker-compose file to push to AWS, the docker build command in the script `push-to-aws.sh` must be changed. 
 
 ## Running tests
@@ -86,17 +91,21 @@ python -m unittest tests/test_structure.py
 Remember that the container port must be added in `app/docker-compose.yml` and that the service name in this file must be 'app' for Travis to run the container.
 
 **NOTE**: Python3 is required for the imports in the tests to be valid.
+
 **NOTE**: The tests always assume host '0.0.0.0'. If another host should be used for the tests, this must now be set in `test_running.py`. In `test_base.py` there is some starting code for extracting the host from `app/Dockerfile` or `app/app.py`, so that it does not have to be set manually for the tests, but it is not finished.
+
 **NOTE**: Can we find a way to test i.e. container port mapping against AWS?
 
 # Push docker image to AWS
 If the tests are all passed, Travis moved to the `deploy` phase, and the docker image is pushed to AWS ECR. 
 In the deployment, the docker image is built without using `app/docker-compose.yml`. 
+
 Again, **NOTE**: Be aware that changed settings for docker image in `app/docker-compose.yml` will be tested, but *not* included when pushing to AWS. If it is desired to use the docker-compose file to push to AWS, the docker build command in the script `push-to-aws.sh` must be changed.
 
 The commands for pushing to AWS ECR are in `push-to-aws.sh`. If you are using Fargate (or dynamic port mapping) and want to *force new deployment* when pushing a new image, uncomment the last line in this script. Otherwise, it should not be necessary to change anything in this file. The information needed to find and push to you ECR, is provided as environment variables, and you must create these The non-secret variables can be saved in the script `AWS-env-var.txt`, while secrets should be saved encrypted as described in section [Storing secrets](#storing-secrets). Be aware that to login to ECR using the command `aws ecr get-login`, the AWS access keys must be stored in (secure) variables with correct names names. The names must be `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_ACCOUNT_ID`. Never store these in plain text. You can choose which encryption method to use, but to keep `.travis.yml` clean and for you to have the best overview over your keys, saving environment variables in your Travis settings is the best option.
 
 A suggestion for which variables you can save unencrypted is currently in `AWS-env-var.txt`, but you can choose to delete these and save them encrypted if preferred. Use the same names for the variables as in this template. You can see how the variables are used in `push-to-aws.sh`. Remember to never store keys and passwords in this script. Further, if there exists a naming convention for your container/ECR/service/cluster etc, you can add rules for this by using and editing the block commented out in `AWS-env-var.txt`. 
+
 **NOTE**: Save these naming rules in this template if the same rules are used accross all repos/apis, so that you don't need to set all names manually. 
 
 
