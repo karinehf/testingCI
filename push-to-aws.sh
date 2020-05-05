@@ -1,7 +1,7 @@
 source AWS-env-var.sh
 cd app
 pip install awscli
-export PATH=$PATH:$HOME/.local/bin
+#export PATH=$PATH:$HOME/.local/bin
 eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
 docker build -t $AWS_IMAGE_NAME:latest .
 docker tag $AWS_IMAGE_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$AWS_REPO
