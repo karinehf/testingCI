@@ -7,25 +7,6 @@ from app import app
 
 class TestBase(unittest.TestCase):
 
-    def is_dockercompose(self, path='app'):
-        filename = path + '/docker-compose.yml'
-        return os.path.exists(filename)
-
-    def get_ports_dockercompose(self, path = 'app'):
-        if self.is_dockercompose(path = path):
-            filename = path + '/docker-compose.yml'
-            with open(filename, 'r') as stream:
-                try:
-                    yml_dict = yaml.safe_load(stream)
-                except yaml.YAMLError as exc:
-                    print(exc)
-            ports_str = yml_dict['services']['app']['ports'][0]
-            ports= ports_str.split(':')
-            return([int(ports[0]), int(ports[1])])
-        else: 
-            #TODO: Figure out what to do if there is no compose-file
-            return([None, None])
-
     def get_dockerfile_string(self, path='app'):
         '''
         Read dockerfile, remove comments, remove newlines and whitespaces

@@ -4,11 +4,12 @@ from tests.test_base import TestBase
 
 #NB, for running code.
 class TestFlaskRunning(TestBase):
-
+        
     def setUp(self):
-        self.PORT_OUT = self.get_ports_dockercompose()[0]
+        dockerfile_string = self.get_dockerfile_string()
+        self.PORT= self.get_container_port(dockerfile_string)
         self.HOST = '0.0.0.0'
-        self.URL = "http://" + self.HOST + ":" + str(self.PORT_OUT)+ "/" + app.app_name + "/"
+        self.URL = "http://" + self.HOST + ":" + str(self.PORT)+ "/" + app.app_name + "/"
 
 
     def test_status_code(self):
