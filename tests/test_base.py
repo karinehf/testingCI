@@ -17,7 +17,7 @@ class TestBase(unittest.TestCase):
         lines = all_content.split('\n')
         new_content = ''
         for line in lines: 
-            #Removes part of lines after # (but comments will perhaps only start at beginning of line?)
+            #Removes part of lines after # 
             newline = line.split('#', 1)[0]
             new_content= new_content + newline
         #Remove all whitespaces

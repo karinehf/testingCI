@@ -1,6 +1,5 @@
 #Get container port
 PORT=$(python get_port.py)
-echo $PORT
 #Docker
 #Build image and run container
 cd app
