@@ -6,10 +6,14 @@ services:
 branches: 
     only: 
         - master
+before_install: 
+    - bash run-docker.sh
 install:
     - pip install -r requirements.txt
 script:
-    - bash eval $(run-docker-and-tests.sh)
+    - unittest
+after_script:
+    - stop-docker.sh
 #deploy:
 #    provider: script
 #    script: bash push-to-aws.sh
