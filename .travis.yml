@@ -8,10 +8,14 @@ branches:
         - master
 install:
     - pip install -r requirements.txt
+    - PORT=$(python get_port.py)
+    - cd app
+    ##- docker build -t app_image:test .
+    - docker run -d -p $PORT:$PORT --name app_container app_image:test
+    - cd -
 script:
-    #- docker ps | grep app_container #Testing that the container is running
-    #- python -m unittest discover tests #Running unittests
-    - source run-docker-and-tests.sh
-deploy:
-    provider: script
-    script: bash push-to-aws.sh
+    - docker ps | grep app_container #Testing that the container is running
+    - python -m unittest discover tests #Running unittests
+#deploy:
+#   provider: script
+#   script: bash push-to-aws.sh
