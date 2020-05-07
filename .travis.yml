@@ -6,10 +6,9 @@ services:
 branches: 
     only: 
         - master
-before_install: 
-    - bash run-docker.sh
 install:
     - pip install -r requirements.txt
+    - bash run-docker.sh
 script:
     - python -m unittest discover tests 
 after_script:
