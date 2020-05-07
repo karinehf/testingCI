@@ -23,12 +23,12 @@ Currently working with Flask app, Docker, Travis CI and AWS ECR.
 To connect Travis CI to your repository, do steps 1-3 in <https://docs.travis-ci.com/user/tutorial/#to-get-started-with-travis-ci-using-github>. The file `.travis.yml` tells Travis what to do when a build is triggered (that is, when you push something to the master branch of your repository).
 
 ## .travis.yml
-This file should be in your root folder for Travis to find it. Most commands are written elsewhere, as we want to keep this file clean.
+This file should be in your root folder for Travis to find it. We want to keep this file clean, and only include commands that are general if possible.
 Travis-specific settings can, however, be changed here if necessary: 
 - Set another version of Python
 - Make pushes to other branches than Master trigger a Travis build
 - Other Travis-specific restrictions or services are required for your application. More info here: <https://docs.travis-ci.com/?utm_source=help-page&utm_medium=travisweb>. 
-Otherwise, functionality should be kept out of this file. The commands Travis run are in the scripts `run-docker-and-tests.sh` and `push-to-aws.sh`. Never store secrets or display/echo password in these scripts.
+Test and install commands are also found in this file. If commands in the install phase fail, the build is errored and exited. If commands in the script phase fail, the build continues, but fails. These two are the main phases in the build. If you want to run your commands in a script, make sure the script is exited with a non-zero exit code if any of the commands in ths script fail. The code for pushing image to AWS ECR is found in `push-to-aws.sh` and `AWS-env-var.sh`. Never store secrets or display/echo password in these scripts.
  
 ## Storing secrets
 Secrets/keys etc should never be stored in plain text. They can, however, be stored encrypted in `.travis.yml` using `travis encrypt`, or as environment variables in your TravisCI settings for your repository.
@@ -55,7 +55,7 @@ The most important secrets in this repository are the AWS access keys. Some addi
 **NOTE**: In general, your repo should include the folders and files and the same structure as this template repository for all Travis commands and tests to run without error. 
 
 Folder names `app` and `tests` must be kept as they are, as must name of app content file: `app.py`. Root directory should be the name of the app, and the variable `app_name` must also be added as a variable in `app.py`.
-The YAML file `.travis.yml` must be in root directory, and so should the `.sh`-scripts be. These are called from `.travis.yml` and include the specific commands Travis needs to run.
+The YAML file `.travis.yml` must be in root directory, and so should the `.sh`-scripts and `get_port.py` be. These are called from `.travis.yml` and include the specific commands Travis needs to run.
 The `.vscode` folder with settings include some settings convenient for running the unit tests in Visual Studio Code. Here, it is specified where to look for the tests and to use Python 3 by default. The folder is not necessary for running the tests in Travis or from other interfaces.
 The `.gitignore` file is a genereric gitignore for python projects, and can be customized. 
 The requirements-file inside `app` should include everything needed for the app, and the `requirements.txt` in root directory must include what Travis needs. What is needed to run the unit tests is included here, and the app's requirements should also be referred to: 
@@ -92,12 +92,18 @@ The host should be '0.0.0.0' for the docker container to run in the tests.
 In the `tests` folder, all test logic is found. The test framework `unittest` is used. See <https://docs.python.org/3/library/unittest.html> for documentation. The tests are structured into three classes based on what they are testing, and these are divided into three modules: `test_content.py`, `test_structure.py` and `test_running.py`. In addition there is a `test_base.py` module, which does not contain any tests, but provides a class with functionality methods for `test_structure.py` and `test_running.py`. The methods in `test_base.py` are mainly for reading files and finding the specified ports.
 All tests can be found as methods with names starting with `test_`. The tests in `test_running.py` and `test_structure.py` should work if the naming and repository structure is as in this repository. The most important test now, it to check that the app is responding when Travis is running the docker container. 
 Content in `test_content.py` is specific for the app content. Tests for app content logic can be added here, or else just remove the template test. Content and structure tests should pass as long as code and logic is correct, while `test_running.py` needs a running container to pass, as the tests here checks for status code of a runing flask app.
-Travis runs the tests by first building and running the docker image/container, and then the tests are run using commands on the form 
+Travis runs the tests by first building and running the docker image/container in the install phase, and then the tests are all run using the command
 
 ```python
-python -m unittest tests/test_structure.py
+python -m unittest discover tests
 ```
-These commands are specified in the script `run-docker-and-tests.sh`. The container port is needed to run the docker container for the tests, and it is extracted in `get_port.py` using methods written in `test_base.py`.
+The command 
+```python
+docker ps | grep app_container 
+```
+checks that the container is running. 
+
+The container port is needed to run the docker container for the tests, and it is extracted in `get_port.py` using methods written in `test_base.py`.
 
 **NOTE**: Python3 is required for the imports in the tests to be valid.
 
