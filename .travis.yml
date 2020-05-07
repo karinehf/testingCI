@@ -10,6 +10,7 @@ install:
     - pip install -r requirements.txt
     - bash run-docker.sh
 script:
+    - docker ps | grep app_container
     - python -m unittest discover tests 
 after_script:
     - stop-docker.sh

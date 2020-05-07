@@ -1,5 +1,6 @@
 #Get container port
-PORT=$(python get_port.py)
+#PORT=$(python get_port.py)
+PORT=3000
 #Docker
 #Build image and run container
 cd app
