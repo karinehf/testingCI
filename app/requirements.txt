@@ -2,5 +2,5 @@ flask
 healthcheck
 six
 flask_restplus
-Werkzeug==0.16.0
+Werkzeug==2.2.3
 gunicorn
